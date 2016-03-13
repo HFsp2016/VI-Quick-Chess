@@ -8,3 +8,8 @@ D:\Projects\Misc\Chess\Working\ClassLibrary\bin\Debug\Chessbrary.pdb
 D:\Projects\Misc\Chess\Working\ClassLibrary\obj\Debug\ResolveAssemblyReference.cache
 D:\Projects\Misc\Chess\Working\ClassLibrary\obj\Debug\Chessbrary.dll
 D:\Projects\Misc\Chess\Working\ClassLibrary\obj\Debug\Chessbrary.pdb
+E:\Users\Keith\Documents\GitHub\quick-chess\ClassLibrary\bin\Debug\Chessbrary.dll
+E:\Users\Keith\Documents\GitHub\quick-chess\ClassLibrary\bin\Debug\Chessbrary.pdb
+E:\Users\Keith\Documents\GitHub\quick-chess\ClassLibrary\obj\Debug\ChessLibrary.csprojResolveAssemblyReference.cache
+E:\Users\Keith\Documents\GitHub\quick-chess\ClassLibrary\obj\Debug\Chessbrary.dll
+E:\Users\Keith\Documents\GitHub\quick-chess\ClassLibrary\obj\Debug\Chessbrary.pdb
