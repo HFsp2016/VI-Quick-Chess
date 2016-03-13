@@ -1,6 +1,6 @@
-quick-chess
+VIquick-chess
 ===========
-Modification of Quick Chess to cater to the visually impaired. Original README below.
+Modification of Quick Chess to cater to the visually impaired. Original README description below.
 -------------------------------------------------------------------------------------
 
 Open Source Chess Game for Windows developed in C#
