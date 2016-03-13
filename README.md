@@ -1,5 +1,7 @@
 quick-chess
 ===========
+Modification of Quick Chess to cater to the visually impaired. Original README below.
+-------------------------------------------------------------------------------------
 
 Open Source Chess Game for Windows developed in C#
 
