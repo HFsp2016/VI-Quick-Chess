@@ -8,6 +8,7 @@ using System;
 using System.Collections;
 using System.Windows.Forms;
 using ChessLibrary;
+using System.Speech.Synthesis;
 
 namespace Chess
 {
@@ -16,7 +17,9 @@ namespace Chess
 	/// </summary>
 	public class GameUI
 	{
-		private ArrayList Squars;	// Picture control array for storing the place holders
+        SpeechSynthesizer sSynth = new SpeechSynthesizer();
+
+        private ArrayList Squars;	// Picture control array for storing the place holders
 		public Images ChessImages;	// Contains reference of chess images
 		private string ResourceFolder;		// Contain the locaiton of resource folder
 		private int LogCounter;			// Stores the entries in the log
@@ -34,6 +37,8 @@ namespace Chess
 
 		public GameUI(ChessMain form)
 		{
+            sSynth.Rate = -4;
+
 			this.ParentForm = form;	// get and store reference of parent form
 
 			// Load all the chess images in a list
@@ -115,7 +120,7 @@ namespace Chess
 					Squar sqr=GetBoardSquar(cell.ToString());	// get the board by cell position
 					sqr.BackgroundImage = null;
                     // Show a semi-transparent, saddle color
-                    sqr.BackColor = System.Drawing.Color.FromArgb(200, System.Drawing.Color.SaddleBrown);
+                    sqr.BackColor = System.Drawing.Color.FromArgb(200, System.Drawing.Color.SteelBlue);
 				}
 			}
 			SelectedSquar="";	// Reset the selected squar position
@@ -208,15 +213,16 @@ namespace Chess
 			{
 				case 0:	// move was successfull;
 					// check if the last move was promo move
-					Move move=ChessGame.GetLastMove();	// get the last move 
+					Move move=ChessGame.GetLastMove();  // get the last move 
 
-					// Play the sound
-					if (ChessGame.IsUnderCheck())
-						Sounds.PlayCheck();	// Player is under check
-					else if (move.Type == Move.MoveType.NormalMove || move.Type == Move.MoveType.TowerMove)
-						Sounds.PlayNormalMove();
-					else
-						Sounds.PlayCaptureMove();
+                    // Play the sound
+                    if (ChessGame.IsUnderCheck()) {
+                        Sounds.PlayCheck();	// Player is under check
+                        sSynth.Speak("Check."); // Speech indication of player being under check
+                    } else if (move.Type == Move.MoveType.NormalMove || move.Type == Move.MoveType.TowerMove)
+                        Sounds.PlayNormalMove();
+                    else
+                        Sounds.PlayCaptureMove();
 
 					// Add to the capture list
 					if ( move.IsCaptureMove() )
@@ -230,6 +236,7 @@ namespace Chess
 					if (ChessGame.IsCheckMate(ChessGame.GameTurn))
 					{
 						Sounds.PlayGameOver();
+                        sSynth.Speak("Checkmate.");
 						IsOver=true;
 						MessageBox.Show(ChessGame.GetPlayerBySide(ChessGame.GameTurn).Name + " is checkmate.", "Game Over",MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
 					}
@@ -238,10 +245,11 @@ namespace Chess
 					{
 						Sounds.PlayGameOver();
 						IsOver=true;
-						MessageBox.Show(ChessGame.GetPlayerBySide(ChessGame.GameTurn).Name + " is stalmate.", "Game Over",MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
+						MessageBox.Show(ChessGame.GetPlayerBySide(ChessGame.GameTurn).Name + " is stalemate.", "Game Over",MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
 					}
 					LogUserMove(move.ToString());	// Log the user action
-					NextPlayerTurn();
+                    sSynth.Speak(move.ToString());  // Speech indicates piece taken
+                    NextPlayerTurn();
 					break;
 
 				default:
@@ -310,6 +318,7 @@ namespace Chess
 			if (ChessGame.UnDoMove())
 			{
 				LogUserMove("Undo Move");	// Log the user action
+                sSynth.Speak("Move undone");    // Speech indicates that move was undone
 
                 // Only remove the item from capture bar, if it was a capture move
                 if (move.IsCaptureMove())
@@ -352,6 +361,7 @@ namespace Chess
 			if (ChessGame.ReDoMove())
 			{
 				LogUserMove("Redo Move");	// Log the user action
+                sSynth.Speak("Move redone.");   // Speech indicates that move was redone
 
 				// check if the last move was promo move
 				Move move=ChessGame.GetLastMove();	// get the last move 
@@ -497,6 +507,7 @@ namespace Chess
 
 				InitPlayers();
 				RedrawBoard();		// Make the chess board visible on screen
+                sSynth.Speak("New game created.");  // Speech indicates that a new game was created
 				NextPlayerTurn();		// When the both players are computer this start the game 
 			
                 // Let user save the game

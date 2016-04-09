@@ -43,3 +43,4 @@ E:\Users\Keith\Documents\GitHub\quick-chess\Chess\obj\Debug\Chess.Properties.Res
 E:\Users\Keith\Documents\GitHub\quick-chess\Chess\obj\Debug\Chess.SelectPiece.resources
 E:\Users\Keith\Documents\GitHub\quick-chess\Chess\obj\Debug\Chess.Squar.resources
 E:\Users\Keith\Documents\GitHub\quick-chess\Chess\obj\Debug\Chess.csproj.GenerateResource.Cache
+E:\Users\Keith\Documents\GitHub\quick-chess\Chess\bin\Debug\System.Speech.dll

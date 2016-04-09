@@ -13,3 +13,4 @@ E:\Users\Keith\Documents\GitHub\quick-chess\ClassLibrary\bin\Debug\Chessbrary.pd
 E:\Users\Keith\Documents\GitHub\quick-chess\ClassLibrary\obj\Debug\ChessLibrary.csprojResolveAssemblyReference.cache
 E:\Users\Keith\Documents\GitHub\quick-chess\ClassLibrary\obj\Debug\Chessbrary.dll
 E:\Users\Keith\Documents\GitHub\quick-chess\ClassLibrary\obj\Debug\Chessbrary.pdb
+E:\Users\Keith\Documents\GitHub\quick-chess\ClassLibrary\bin\Debug\System.Speech.dll

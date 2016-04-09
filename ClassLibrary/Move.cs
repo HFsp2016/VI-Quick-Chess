@@ -7,6 +7,7 @@
  ***************************************************************/
 
 using System;
+using System.Speech.Synthesis;
 
 namespace ChessLibrary
 {
@@ -18,6 +19,8 @@ namespace ChessLibrary
     [Serializable]
 	public class Move
 	{
+        //SpeechSynthesizer sSynth = new SpeechSynthesizer();
+
 		public enum MoveType {NormalMove, CaputreMove, TowerMove, PromotionMove, EnPassant};	// Type of the move
 
 		private Cell m_StartCell;	// start cell
@@ -177,10 +180,10 @@ namespace ChessLibrary
 		//Return a descriptive move text
 		public override string ToString()
 		{
-			if (m_Type == Move.MoveType.CaputreMove)	// It's a capture move
-				return m_Piece + " " + m_StartCell.ToString2() + "x" + m_EndCell.ToString2();
-			else
-				return m_Piece + " " + m_StartCell.ToString2() + "-" + m_EndCell.ToString2();
+            if (m_Type == Move.MoveType.CaputreMove) {	// It's a capture move
+                return m_Piece + " " + m_StartCell.ToString2() + " takes " + m_EndCell.ToString2();
+            } else
+                return m_Piece + " " + m_StartCell.ToString2() + " to " + m_EndCell.ToString2();
 		}
 	}
 

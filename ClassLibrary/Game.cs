@@ -13,6 +13,7 @@ using System.Collections;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Security.Cryptography;
+using System.Speech.Synthesis;
 
 namespace ChessLibrary
 {
@@ -22,6 +23,8 @@ namespace ChessLibrary
     [Serializable]
 	public class Game
 	{
+        SpeechSynthesizer sSynth = new SpeechSynthesizer();
+
 		// Define delegates used to communicate the chess events to the UI
 		public delegate void ChessComputerThinking(int depth, int currentMove, int TotalMoves, int TotalAnalzyed , Move BestMove);
 
@@ -99,6 +102,9 @@ namespace ChessLibrary
 
                 // Build the text writer and serlization the file
                 gameXmlDocument.Save(filePath);
+
+                // Speech output to indicate that game was saved
+                sSynth.Speak("Game saved.");
                 return;
             }
             catch (Exception) { }
@@ -122,6 +128,7 @@ namespace ChessLibrary
 
                 // De-serialize the Game state from the XML
                 XmlDeserialize(gameNode);
+                sSynth.Speak("Game loaded.");
             }
             catch (Exception) { }
         }
