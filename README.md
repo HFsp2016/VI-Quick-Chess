@@ -1,10 +1,13 @@
-VIquick-chess
+#VIquick-chess
 ===========
-Modification of Quick Chess to cater to the visually impaired.
-	1) Text-to-speech output for gameplay and various user interface navigation actions
-	2) Color modification for improved visual contrast
+##Modification of Quick Chess to cater to the visually impaired.
 
-Original README description below.
+	*1) Text-to-speech output for gameplay and various user interface navigation actions*
+	
+	*2) Color modification for improved visual contrast*
+
+	
+####Original README description below.
 -------------------------------------------------------------------------------------
 
 Open Source Chess Game for Windows developed in C#
