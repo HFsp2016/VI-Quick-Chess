@@ -2,15 +2,15 @@
 ===========
 ##Modification of Quick Chess to cater to the visually impaired.
 
-	*1) Text-to-speech output for gameplay and various user interface navigation actions*
+	1) Text-to-speech output for gameplay and various user interface navigation actions
 	
-	*2) Color modification for improved visual contrast*
+	2) Color modification for improved visual contrast
 
 	
 ####Original README description below.
 -------------------------------------------------------------------------------------
 
-Open Source Chess Game for Windows developed in C#
+<b><u>Open Source Chess Game for Windows developed in C#</u></b>
 
 The Quick Chess application can be used by two users to play the Chess game on the computer, plus you can also play with Computer, or just be a spectator, and let the Computer play the game (in Computer vs Computer mode).
 
