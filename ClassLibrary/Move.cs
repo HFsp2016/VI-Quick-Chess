@@ -13,7 +13,7 @@ namespace ChessLibrary
 {
 	/// <summary>
 	/// This class stores info about a single chess game move.
-	/// It contains source and target chess squars/cells and also the type
+	/// It contains source and target chess squares/cells and also the type
 	/// of move and related info.
 	/// </summary>
     [Serializable]
@@ -26,14 +26,14 @@ namespace ChessLibrary
 		private Cell m_StartCell;	// start cell
 		private Cell m_EndCell;		// end cell
 		private Piece m_Piece;			// Piece being moved
-		private Piece m_CapturedPiece;	// Piece captured by this mov
+		private Piece m_CapturedPiece;	// Piece captured by this move
 		private Piece m_PromoPiece;		// Piece selected after pawn promotion
 		private Piece m_EnPassantPiece;	// Piece captured during enpassant move
 		private MoveType m_Type;		// Type of the move
 		private bool m_CauseCheck;		// if cause or leave the user under check
 		private int	m_Score;			// Score of the move from the board analyze routine
 
-        // Emptry internal constructor for XML Serialization support
+        // Empty internal constructor for XML Serialization support
         internal Move()
         {
             m_Score = 0;
@@ -190,7 +190,7 @@ namespace ChessLibrary
 	// This class is used to compare two Move type objects
 	public class MoveCompare : System.Collections.IComparer
 	{
-		// Empty constructore
+		// Empty constructor
 		public MoveCompare()
 		{
 		}

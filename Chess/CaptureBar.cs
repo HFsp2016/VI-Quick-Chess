@@ -35,7 +35,7 @@ namespace Chess
 			for (int col=1; col<=12; col++)	// repeat for every column in the chess board row
 			{
 				Squar ChessSquar = new Squar(col, 1, null);
-				//ChessSquar.SetBackgroundSquar(ChessImages);	// Set the chess squar background
+				//ChessSquar.SetBackgroundSquar(ChessImages);	// Set the chess square background
 				
 				if ((col)%2==0) // White cell
 					ChessSquar.BackgroundImage = ImagesList["White2"];

@@ -31,17 +31,17 @@ namespace ChessLibrary
 		public event ChessComputerThinking ComputerThinking;	// Event used to fire computer thinking status
 
 		public Board Board;		            // expose the game board to outside world
-        public Side.SideType GameTurn;		    // Current game turn i.e. White or Black
+        public Side.SideType GameTurn;		// Current game turn i.e. White or Black
 
         private Stack m_MovesHistory;		// Contains all moves made by the user		
         private Stack m_RedoMovesHistory;	// Contains all the Redo moves made by the user
 		private Rules m_Rules;			    // Contains all the chess rules
-		private Player m_WhitePlayer;	    // White Player objectg
+		private Player m_WhitePlayer;	    // White Player object
 		private Player m_BlackPlayer;	    // Black player object
 
 		public bool DoNullMovePruning;		// True when compute should do null move pruning to speed up search
 		public bool DoPrincipleVariation;	// True when computer should use principle variation to optimize search
-		public bool DoQuiescentSearch;		// Return true when computer should do Queiscent search
+		public bool DoQuiescentSearch;		// Return true when computer should do Quiescent search
 
 		public Game()
 		{
@@ -61,7 +61,7 @@ namespace ChessLibrary
 				ComputerThinking(depth, currentMove, TotalMoves, TotalAnalzyed, BestMove);
 		}
 
-		// get the new item by rew and column
+		// get the new item by row and column
 		public Cell this[int row, int col]
 		{
 			get
@@ -100,11 +100,11 @@ namespace ChessLibrary
                 gameXmlDocument.AppendChild(gameXmlDocument.CreateXmlDeclaration("1.0", "utf-8", null));
                 gameXmlDocument.AppendChild(gameXml);
 
-                // Build the text writer and serlization the file
+                // Build the text writer and serialization the file
                 gameXmlDocument.Save(filePath);
 
                 // Speech output to indicate that game was saved
-                sSynth.Speak("Game saved.");
+                sSynth.SpeakAsync("Game saved.");
                 return;
             }
             catch (Exception) { }
@@ -128,7 +128,7 @@ namespace ChessLibrary
 
                 // De-serialize the Game state from the XML
                 XmlDeserialize(gameNode);
-                sSynth.Speak("Game loaded.");
+                sSynth.SpeakAsync("Game loaded.");
             }
             catch (Exception) { }
         }
@@ -190,7 +190,7 @@ namespace ChessLibrary
         /// <returns>XML containing the Game object state XML</returns>
         public void XmlDeserialize(XmlNode xmlGame)
         {
-            // If this source file doesn't contain the check sum attribut, return back
+            // If this source file doesn't contain the check sum attribute, return back
             if (xmlGame.Attributes["Checksum"] == null)
                 return;
 

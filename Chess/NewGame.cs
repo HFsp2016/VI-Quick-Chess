@@ -13,7 +13,7 @@ namespace Chess
 	{
         // Public variables
 
-        public string ResourceFolderPath;      // This string gcontains the resoruce folder path, where all the external resources are stored
+        public string ResourceFolderPath;      // This string contains the resource folder path, where all the external resources are stored
         public bool bStartGame;		        // True when we need to start the game
 
 		private System.Windows.Forms.GroupBox groupBox1;

@@ -1,7 +1,7 @@
 /***************************************************************
  * File: ChessBoard.cs
  * Created By: Syed Ghulam Akbar		Date: 29 June, 2005
- * Description: This class implements the acutal chess board UI.
+ * Description: This class implements the actual chess board UI.
  * This class handles drawing and events handling for the board
  ***************************************************************/
 using System;
@@ -21,31 +21,31 @@ namespace Chess
 
         private ArrayList Squars;	// Picture control array for storing the place holders
 		public Images ChessImages;	// Contains reference of chess images
-		private string ResourceFolder;		// Contain the locaiton of resource folder
+		private string ResourceFolder;		// Contain the location of resource folder
 		private int LogCounter;			// Stores the entries in the log
 
-		public Game ChessGame;		    // Backend chess game engine
+		public Game ChessGame;		    // Back end chess game engine
 		public Sounds	Sounds;			// Stores the game sounds
-		public string	SelectedSquar;	// Contains name of the selected squar
-        public string LastSelectedSquar;// The last selected squar
+		public string	SelectedSquar;	// Contains name of the selected square
+        public string LastSelectedSquar;// The last selected square
 		public ChessMain ParentForm;	// Reference of the parent form 
 		public bool ShowMoveHelp;		// Show possible move by colors
 		public bool IsRunning;			// Return true when the game is running
 		public bool IsOver;				// Set to true when the game is over
-        public bool ShowComputerThinkingProgres = true;    // Set wether to show the progress of the computer thinking
+        public bool ShowComputerThinkingProgres = true;    // Set whether to show the progress of the computer thinking
         public bool LastMoveByClick;    // Stores true if the last move was made by mouse click (instead of drag and drop)
 
 		public GameUI(ChessMain form)
 		{
-            sSynth.Rate = -4;
+            sSynth.Rate = -3;
 
-			this.ParentForm = form;	// get and store reference of parent form
+            this.ParentForm = form; // get and store reference of parent form
 
-			// Load all the chess images in a list
-			ChessImages = new Images();
-
+            // Load all the chess images in a list
+            ChessImages = new Images();
+            
             #if DEBUG
-			    ResourceFolder = "..\\..\\Resources\\";
+                ResourceFolder = "..\\..\\Resources\\";
             #else
                 ResourceFolder = "Resources\\";
             #endif
@@ -53,14 +53,16 @@ namespace Chess
             // For Production Release
             ResourceFolder = "Resources\\";
 			ChessImages.LoadImages(ResourceFolder);
-			Sounds = new Sounds(ResourceFolder);	// create the sounds object for play sound
+			Sounds = new Sounds(ResourceFolder);	// create the sounds object for playing sound
 			BuildBoard();
-			
-			ParentForm.ChessCaptureBar.InitializeBar(ChessImages);	// Initialize chess bar
+            sSynth.SpeakAsync("Welcome to Audio Chess! Press alt f, then n, to start a new game.");
+
+            ParentForm.ChessCaptureBar.InitializeBar(ChessImages);	// Initialize chess bar
 
 			// Initialize variables
-			ShowMoveHelp = true; // 
-		}
+			ShowMoveHelp = false; // 
+
+        }
 
 		// Builds the chess pieces place holder images controls
 		public void BuildBoard()
@@ -72,16 +74,18 @@ namespace Chess
 				for (int col=1; col<=8; col++)	// repeat for every column in the chess board row
 				{
 					Squar ChessSquar = new Squar(row, col, this);
-					ChessSquar.SetBackgroundSquar(ChessImages);	// Set the chess squar background
+					ChessSquar.SetBackgroundSquar(ChessImages);	// Set the chess square background
 					Squars.Add(ChessSquar);
 					ParentForm.Controls.Add(ChessSquar);
 				}
 		}
 
-		// retunrs board squar for the given name
+		// returns board square for the given name
 		private Squar GetBoardSquar(string strCellName)
 		{
-			foreach (Squar ChessSquar in Squars)
+            sSynth.SpeakAsync("Available moves are ");
+            sSynth.SpeakAsync(strCellName);
+            foreach (Squar ChessSquar in Squars)
 			{
 				if (ChessSquar.Name == strCellName)
 					return ChessSquar;
@@ -99,7 +103,7 @@ namespace Chess
 					ChessSquar.SetBackgroundSquar(ChessImages);
 				}
 
-				if (ChessGame.Board[ChessSquar.Name] != null)	// Valid board squar
+				if (ChessGame.Board[ChessSquar.Name] != null)	// Valid board square
 					ChessSquar.DrawPiece(ChessImages.GetImageForPiece(ChessGame.Board[ChessSquar.Name].piece )); // draw the chess piece image
 				
 				if (ChessSquar.Name == SelectedSquar && ShowMoveHelp==true) // selected check box
@@ -112,10 +116,10 @@ namespace Chess
 			// Check if need to show the possible legal moves for the current selected piece
 			if (SelectedSquar != null && SelectedSquar != "" && ShowMoveHelp==true && ChessGame.Board[SelectedSquar].piece != null && !ChessGame.Board[SelectedSquar].piece.IsEmpty() &&  ChessGame.Board[SelectedSquar].piece.Side.type == ChessGame.GameTurn )
 			{
-				ArrayList moves=ChessGame.GetLegalMoves(ChessGame.Board[SelectedSquar]);	// Get all legal moves for the current selected item
-			
-				// Hightlight all the possible moves for the current player
-				foreach (Cell cell in moves)
+				ArrayList moves=ChessGame.GetLegalMoves(ChessGame.Board[SelectedSquar]);    // Get all legal moves for the current selected item
+
+                // highlight all the possible moves for the current player
+                foreach (Cell cell in moves)
 				{
 					Squar sqr=GetBoardSquar(cell.ToString());	// get the board by cell position
 					sqr.BackgroundImage = null;
@@ -123,7 +127,7 @@ namespace Chess
                     sqr.BackColor = System.Drawing.Color.FromArgb(200, System.Drawing.Color.SteelBlue);
 				}
 			}
-			SelectedSquar="";	// Reset the selected squar position
+			SelectedSquar="";	// Reset the selected square position
 		}
 
 		// Show current player turn visual clue
@@ -134,23 +138,24 @@ namespace Chess
 			if (ChessGame.BlackTurn())
 			{
 				ParentForm.BlackPlayerTime.Text = ChessGame.BlackPlayer.ThinkTime;
-				//ParentForm.WhitePlayerName.Visible = true;
-				//ParentForm.BlackPlayerName.Visible = !ParentForm.BlackPlayerName.Visible; // Blink the player name
-			}
+                //ParentForm.WhitePlayerName.Visible = true;
+                //ParentForm.BlackPlayerName.Visible = !ParentForm.BlackPlayerName.Visible; // Blink the player name
+            }
 			else
 			{
 				ParentForm.WhitePlayerTime.Text = ChessGame.WhitePlayer.ThinkTime;
-				//ParentForm.BlackPlayerName.Visible = true;
-				//ParentForm.WhitePlayerName.Visible = !ParentForm.WhitePlayerName.Visible; // Blink the player name
-			}
+                //ParentForm.BlackPlayerName.Visible = true;
+                //ParentForm.WhitePlayerName.Visible = !ParentForm.WhitePlayerName.Visible; // Blink the player name
+            }
 		}
 
 		// Called when it's the next player turn to play the move
 		// We handle the computer move here
 		public void NextPlayerTurn()
 		{
-			if (ChessGame.ActivePlay.IsComputer()) // If the active player is a computer
+            if (ChessGame.ActivePlay.IsComputer()) // If the active player is a computer
 			{
+                sSynth.SpeakAsync("Computer's move.");
                 if (ShowComputerThinkingProgres)
                     ParentForm.ChessCaptureBar.Visible = false;
                 else
@@ -163,7 +168,9 @@ namespace Chess
 				
 				ParentForm.ChessCaptureBar.Visible = true; // show the capture bar
 			}
-		}
+            else
+                sSynth.SpeakAsync("Player's move.");
+        }
 
 		// Initialize the Chess player objects
 		private void InitPlayers()
@@ -211,14 +218,14 @@ namespace Chess
 
 			switch (MoveResult)
 			{
-				case 0:	// move was successfull;
+				case 0:	// move was successful;
 					// check if the last move was promo move
 					Move move=ChessGame.GetLastMove();  // get the last move 
 
                     // Play the sound
                     if (ChessGame.IsUnderCheck()) {
                         Sounds.PlayCheck();	// Player is under check
-                        sSynth.Speak("Check."); // Speech indication of player being under check
+                        sSynth.SpeakAsync("Check."); // Speech indication of player being under check
                     } else if (move.Type == Move.MoveType.NormalMove || move.Type == Move.MoveType.TowerMove)
                         Sounds.PlayNormalMove();
                     else
@@ -236,19 +243,22 @@ namespace Chess
 					if (ChessGame.IsCheckMate(ChessGame.GameTurn))
 					{
 						Sounds.PlayGameOver();
-                        sSynth.Speak("Checkmate.");
-						IsOver=true;
+                        sSynth.SpeakAsync("Check mate.");
+                        sSynth.SpeakAsync("Game over.");
+                        IsOver =true;
 						MessageBox.Show(ChessGame.GetPlayerBySide(ChessGame.GameTurn).Name + " is checkmate.", "Game Over",MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
 					}
-					// check for the statemate situation
+					// check for the stalemate situation
 					if (ChessGame.IsStaleMate(ChessGame.GameTurn))
 					{
 						Sounds.PlayGameOver();
-						IsOver=true;
+                        sSynth.SpeakAsync("Stale mate.");
+                        sSynth.SpeakAsync("Game over.");
+                        IsOver =true;
 						MessageBox.Show(ChessGame.GetPlayerBySide(ChessGame.GameTurn).Name + " is stalemate.", "Game Over",MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
 					}
 					LogUserMove(move.ToString());	// Log the user action
-                    sSynth.Speak(move.ToString());  // Speech indicates piece taken
+                    sSynth.SpeakAsync(move.ToString());  // Speech indicates piece taken
                     NextPlayerTurn();
 					break;
 
@@ -318,7 +328,7 @@ namespace Chess
 			if (ChessGame.UnDoMove())
 			{
 				LogUserMove("Undo Move");	// Log the user action
-                sSynth.Speak("Move undone");    // Speech indicates that move was undone
+                sSynth.SpeakAsync("Move undone");    // Speech indicates that move was undone
 
                 // Only remove the item from capture bar, if it was a capture move
                 if (move.IsCaptureMove())
@@ -361,7 +371,7 @@ namespace Chess
 			if (ChessGame.ReDoMove())
 			{
 				LogUserMove("Redo Move");	// Log the user action
-                sSynth.Speak("Move redone.");   // Speech indicates that move was redone
+                sSynth.SpeakAsync("Move redone.");   // Speech indicates that move was redone
 
 				// check if the last move was promo move
 				Move move=ChessGame.GetLastMove();	// get the last move 
@@ -507,7 +517,7 @@ namespace Chess
 
 				InitPlayers();
 				RedrawBoard();		// Make the chess board visible on screen
-                sSynth.Speak("New game created.");  // Speech indicates that a new game was created
+                sSynth.SpeakAsync("New game created.");  // Speech indicates that a new game was created
 				NextPlayerTurn();		// When the both players are computer this start the game 
 			
                 // Let user save the game

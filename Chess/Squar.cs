@@ -1,12 +1,13 @@
 /***************************************************************
  * File: Squar.cs
  * Created By: Syed Ghulam Akbar		Date: 28 June, 2005
- * Description: A squar class to draw the squars on the windows form.
+ * Description: A square class to draw the squares on the windows form.
  ***************************************************************/
 
 using System;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Speech.Synthesis;
 
 namespace Chess 
 {
@@ -15,17 +16,19 @@ namespace Chess
 	/// </summary>
 	public class Squar : PictureBox
 	{
-		private GameUI m_ParentGame;
+        SpeechSynthesizer sSynth = new SpeechSynthesizer();
+
+        private GameUI m_ParentGame;
 		private static Image m_DraggedImage;	// Image being dragged
-		private static Image m_ImageBeforeDrag;	// Image stored in squar before dragging
-		private static string m_DragSourceSquar;	// Squar from which the drag begin
-		private static string m_DragDestSquar;		// Squar on which item is dropped
+		private static Image m_ImageBeforeDrag;	// Image stored in square before dragging
+		private static string m_DragSourceSquar;	// Square from which the drag begin
+		private static string m_DragDestSquar;		// Square on which item is dropped
 
 		public Squar(int row, int col, GameUI parentgame)
 		{
 			m_ParentGame = parentgame;
 
-			// Initialize the squar UI component
+			// Initialize the square UI component
 			if (parentgame!=null)
 				Location = new System.Drawing.Point((row-1)*55+33, (col-1)*55+33);	// move the piece place holder to it's proper location
 			else
@@ -46,7 +49,7 @@ namespace Chess
 			Image = pieceImage;
 		}
 
-		// Set the chess background squar
+		// Set the chess background square
 		public void SetBackgroundSquar(Images ImageList)
 		{
 			int row=char.Parse(Name.Substring(0,1).ToUpper())-64; // Get row from first ascii char i.e. a=1, b=2 and so on
@@ -61,7 +64,7 @@ namespace Chess
 		private void InitializeComponent()
 		{
 			// 
-			// Squar
+			// Square
 			// 
 			this.AllowDrop = true;
 			this.Click += new System.EventHandler(this.Squar_Click);
@@ -90,11 +93,11 @@ namespace Chess
                 }
             }
 
-			if (this.Image != null && e.Button == MouseButtons.Left && !m_ParentGame.ChessGame.ActivePlay.IsComputer())	// squar contains a piece
+			if (this.Image != null && e.Button == MouseButtons.Left && !m_ParentGame.ChessGame.ActivePlay.IsComputer())	// square contains a piece
 			{
 				m_DraggedImage = this.Image;
 				this.Image=null;
-				m_DragSourceSquar=m_DragDestSquar=this.Name;	// get the source squar being dragged
+				m_DragSourceSquar=m_DragDestSquar=this.Name;	// get the source square being dragged
 				this.DoDragDrop(this.Name, DragDropEffects.Move);
 
                 m_ParentGame.LastSelectedSquar = m_DragDestSquar;
@@ -118,7 +121,7 @@ namespace Chess
 
 		private void Squar_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
 		{
-			// Current that squar is not the squar from where drag started
+			// Current that square is not the square from where drag started
 			m_ImageBeforeDrag = this.Image;	// store image in temporary variable
 			this.Image = m_DraggedImage;
 			e.Effect = DragDropEffects.Move;
@@ -135,7 +138,7 @@ namespace Chess
 			this.Image=m_ImageBeforeDrag;
 		}
 
-		// Called when click on any chess squar object
+		// Called when click on any chess square object
 		private void Squar_Click(object sender, System.EventArgs e)
 		{
 			if (m_ParentGame.IsRunning && !m_ParentGame.ChessGame.ActivePlay.IsComputer())
@@ -143,7 +146,8 @@ namespace Chess
 				Squar ChessSquar = (Squar)sender;
 
 				m_ParentGame.Sounds.PlayClick();
-				m_ParentGame.SelectedSquar = ChessSquar.Name;
+                sSynth.SpeakAsync(ChessSquar.Name); // audio output coordinates of clicked empty square
+                m_ParentGame.SelectedSquar = ChessSquar.Name;
 				m_ParentGame.RedrawBoard();
 			}
 		}
@@ -151,7 +155,8 @@ namespace Chess
 		private void Squar_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
 		{
 			m_DragDestSquar = this.Name;
-		}
+            sSynth.SpeakAsync(this.Name); // audio output coordinates of clicked empty square
+        }
 
 	}
 }
