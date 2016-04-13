@@ -55,7 +55,7 @@ namespace Chess
 			ChessImages.LoadImages(ResourceFolder);
 			Sounds = new Sounds(ResourceFolder);	// create the sounds object for playing sound
 			BuildBoard();
-            sSynth.SpeakAsync("Welcome to Audio Chess! Press alt f, then n, to start a new game.");
+            sSynth.SpeakAsync("Welcome to Audio Chess! ");
 
             ParentForm.ChessCaptureBar.InitializeBar(ChessImages);	// Initialize chess bar
 
@@ -155,7 +155,9 @@ namespace Chess
 		{
             if (ChessGame.ActivePlay.IsComputer()) // If the active player is a computer
 			{
+                
                 sSynth.SpeakAsync("Computer's move.");
+                System.Threading.Thread.Sleep(2500); //make the game sound better
                 if (ShowComputerThinkingProgres)
                     ParentForm.ChessCaptureBar.Visible = false;
                 else
@@ -481,39 +483,39 @@ namespace Chess
 				ChessGame.BlackPlayer.Name = NewGameDlg.BlackPlayerName.Text;
 
 				// Start Human Vs. Computer Game
-                if (NewGameDlg.PlayersHvC.Checked)
-                {
+              //  if (NewGameDlg.PlayersHvC.Checked)
+               // {
                     ChessGame.BlackPlayer.PlayerType = Player.Type.Computer;	// Set the black player as computer
                     ChessGame.WhitePlayer.PlayerType = Player.Type.Human;	    // Set the white player as computer (as he has the first move)
-                }
+               // }
 
 				// Both players are computer
-				if (NewGameDlg.PlayersCvC.Checked)
-				{
-					ChessGame.BlackPlayer.PlayerType = Player.Type.Computer;	// Set the black player as computer
-					ChessGame.WhitePlayer.PlayerType = Player.Type.Computer;	// Set the black player as computer
-				}
+			//	if (NewGameDlg.PlayersCvC.Checked)
+			//	{
+			//		ChessGame.BlackPlayer.PlayerType = Player.Type.Computer;	// Set the black player as computer
+				//	ChessGame.WhitePlayer.PlayerType = Player.Type.Computer;	// Set the black player as computer
+				//}
 
 				// Beginner Player
-				if (NewGameDlg.PlayerLevel1.Checked)
-				{
+				//if (NewGameDlg.PlayerLevel1.Checked)
+				//{
 					ChessGame.WhitePlayer.TotalThinkTime = 4;	// set maximum thinking time
 					ChessGame.BlackPlayer.TotalThinkTime = 4;	// set maximum thinking time
-				}
+				//}
 
 				// Intermediate Player
-				if (NewGameDlg.PlayerLevel2.Checked)
-				{
-					ChessGame.WhitePlayer.TotalThinkTime = 8;	// set maximum thinking time
-					ChessGame.BlackPlayer.TotalThinkTime = 8;	// set maximum thinking time
-				}
+			//	if (NewGameDlg.PlayerLevel2.Checked)
+			//	{
+				//	ChessGame.WhitePlayer.TotalThinkTime = 8;	// set maximum thinking time
+				//	ChessGame.BlackPlayer.TotalThinkTime = 8;	// set maximum thinking time
+			//	}
 
 				// Chess Master Player
-				if (NewGameDlg.PlayerLevel3.Checked)
-				{
-					ChessGame.WhitePlayer.TotalThinkTime = 20;	// set maximum thinking time
-					ChessGame.BlackPlayer.TotalThinkTime = 20;	// set maximum thinking time
-				}
+				//if (NewGameDlg.PlayerLevel3.Checked)
+			//	{
+				//	ChessGame.WhitePlayer.TotalThinkTime = 20;	// set maximum thinking time
+				//	ChessGame.BlackPlayer.TotalThinkTime = 20;	// set maximum thinking time
+			//	}
 
 				InitPlayers();
 				RedrawBoard();		// Make the chess board visible on screen

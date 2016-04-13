@@ -492,7 +492,8 @@ namespace Chess
 		{
             Application.EnableVisualStyles();
 			Application.Run(new ChessMain());
-		}
+           
+        }
 
         /// <summary>
         /// Enable the Save Menu
@@ -516,8 +517,9 @@ namespace Chess
 		private void ChessMain_Load(object sender, System.EventArgs e)
 		{
 			GameObj = new GameUI(this);
-			this.mnuShowMoveHelp.Checked = GameObj.ShowMoveHelp;	// Show the check box
-		}
+			this.mnuShowMoveHelp.Checked = GameObj.ShowMoveHelp;
+            GameObj.NewGame();// Show the check box
+        }
 
 		// Menu Handler
 		private void mnuNewGame_Click(object sender, System.EventArgs e)

@@ -44,6 +44,8 @@ namespace Chess
 			// Required for Windows Form Designer support
 			//
 			InitializeComponent();
+            
+           	// close the form
 
 			//
 			// TODO: Add any constructor code after InitializeComponent call
@@ -311,6 +313,8 @@ namespace Chess
             // Check the selected player types
             if (PlayesrHvH.Checked)
             {
+                bStartGame = true;
+                this.Close();
                 BlackPlayerImage.Image = System.Drawing.Image.FromFile(ResourceFolderPath + "User.jpg");
                 WhitePlayerImage.Image = System.Drawing.Image.FromFile(ResourceFolderPath + "User_2.jpg");
             }
