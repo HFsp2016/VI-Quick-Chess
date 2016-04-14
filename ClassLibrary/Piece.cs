@@ -7,6 +7,7 @@
  ***************************************************************/
 
 using System;
+using System.Speech.Synthesis;
 
 namespace ChessLibrary 
 {
@@ -18,9 +19,11 @@ namespace ChessLibrary
     [Serializable]
 	public class Piece
 	{
-		// chess piece class attributes
-		int m_moves;			// total no. of moves by the piece
-		Side m_side;			// The ches side i.e. white/back to which this piece belongs
+        SpeechSynthesizer sSynth = new SpeechSynthesizer();
+
+        // chess piece class attributes
+        int m_moves;			// total no. of moves by the piece
+		Side m_side;			// The chess side i.e. white/back to which this piece belongs
 		PieceType m_type;		// type of the chess piece i.e. king, queen etc.
 
 		public enum PieceType {Empty, King, Queen, Rook, Bishop, Knight, Pawn};	// define the possible types for chess piece
@@ -31,13 +34,13 @@ namespace ChessLibrary
 			this.Type = PieceType.Empty;	// default piece is empty i.e. doesn't exists
 		}
 
-		// constructore with a given piece type
+		// constructor with a given piece type
 		public Piece(PieceType type)
 		{
 			this.m_type = type;
 		}
 
-		// constructore with a given piece type and side
+		// constructor with a given piece type and side
 		public Piece(PieceType type, Side side)
 		{
 			this.m_type = type;
@@ -53,7 +56,7 @@ namespace ChessLibrary
 		// Return true if the piece is pawn
 		public bool IsPawn()
 		{
-			return m_type==PieceType.Pawn;
+            return m_type==PieceType.Pawn;
 		}
 
 		// Return true if the piece is knight
@@ -102,13 +105,13 @@ namespace ChessLibrary
 				case PieceType.Knight:
 					return "Knight";
 				case PieceType.Pawn:
-					return "Pawn";
+                    return "Pawn";
 				default:
 					return "E";
 			}
 		}
 
-		// Returns back weight of the chess peice
+		// Returns back weight of the chess piece
 		public int GetWeight()
 		{
 			switch (m_type)

@@ -25,13 +25,13 @@ namespace ChessLibrary
 
 		public Board()
 		{
-            m_WhiteSide = new Side(Side.SideType.White);	// Makde white side
-            m_BlackSide = new Side(Side.SideType.Black);	// Makde white side
+            m_WhiteSide = new Side(Side.SideType.White);	// Make white side
+            m_BlackSide = new Side(Side.SideType.Black);	// Make black side
 
 			m_cells = new Cells();					// Initialize the chess cells collection
 		}
 
-		// Initialize the chess board and place piece on thier initial positions
+		// Initialize the chess board and place piece on their initial positions
 		public void Init()
 		{
 			m_cells.Clear();		// Remove any existing chess cells

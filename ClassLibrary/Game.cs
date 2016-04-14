@@ -175,7 +175,7 @@ namespace ChessLibrary
             }
             xmlGame.AppendChild(XMLHelper.CreateNodeWithXmlValue(xmlDoc, "MovesHistory", xml));
 
-            // Create the Checksome to avoid user temporing of the file
+            // Create the Checksum to avoid user tampering of the file
             string checksum = GetChecksum(xmlGame.InnerXml);
             (xmlGame as XmlElement).SetAttribute("Checksum", checksum);
             (xmlGame as XmlElement).SetAttribute("Version", "1.2");
@@ -331,7 +331,7 @@ namespace ChessLibrary
 			return m_Rules.GetLegalMoves(source);
 		}
 
-		// Creat the move object and execute it
+		// Create the move object and execute it
 		public int DoMove(string source, string dest)
 		{
 			int MoveResult;

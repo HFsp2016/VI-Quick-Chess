@@ -60,7 +60,7 @@ namespace Chess
             ParentForm.ChessCaptureBar.InitializeBar(ChessImages);	// Initialize chess bar
 
 			// Initialize variables
-			ShowMoveHelp = false; // 
+			ShowMoveHelp = true; // 
 
         }
 
@@ -83,14 +83,13 @@ namespace Chess
 		// returns board square for the given name
 		private Squar GetBoardSquar(string strCellName)
 		{
-            sSynth.SpeakAsync("Available moves are ");
             sSynth.SpeakAsync(strCellName);
             foreach (Squar ChessSquar in Squars)
 			{
 				if (ChessSquar.Name == strCellName)
 					return ChessSquar;
 			}
-			return null;
+            return null;
 		}
 
 		// Redraw the visible board from the internal chess board
@@ -113,15 +112,23 @@ namespace Chess
 				}
 			}
 
-			// Check if need to show the possible legal moves for the current selected piece
-			if (SelectedSquar != null && SelectedSquar != "" && ShowMoveHelp==true && ChessGame.Board[SelectedSquar].piece != null && !ChessGame.Board[SelectedSquar].piece.IsEmpty() &&  ChessGame.Board[SelectedSquar].piece.Side.type == ChessGame.GameTurn )
-			{
-				ArrayList moves=ChessGame.GetLegalMoves(ChessGame.Board[SelectedSquar]);    // Get all legal moves for the current selected item
+            if (SelectedSquar != null && SelectedSquar != "" && ChessGame.Board[SelectedSquar].piece != null && !ChessGame.Board[SelectedSquar].piece.IsEmpty())
+            {
+                if (ChessGame.Board[SelectedSquar].piece.Side.isWhite()) sSynth.Speak("player");
+                if (ChessGame.Board[SelectedSquar].piece.Side.isBlack()) sSynth.Speak("computer");
+                sSynth.Speak(ChessGame.Board[SelectedSquar].piece.ToString()); // speak piece at clicked position
+            }
 
+            // Check if need to show the possible legal moves for the current selected piece
+            if (SelectedSquar != null && SelectedSquar != "" && ShowMoveHelp==true && ChessGame.Board[SelectedSquar].piece != null && !ChessGame.Board[SelectedSquar].piece.IsEmpty() &&  ChessGame.Board[SelectedSquar].piece.Side.type == ChessGame.GameTurn )
+			{
+                ArrayList moves=ChessGame.GetLegalMoves(ChessGame.Board[SelectedSquar]);    // Get all legal moves for the current selected item
+                
                 // highlight all the possible moves for the current player
+                sSynth.Speak("Available moves are ");  // speak coordinates of clicked square
                 foreach (Cell cell in moves)
-				{
-					Squar sqr=GetBoardSquar(cell.ToString());	// get the board by cell position
+				{                    
+                    Squar sqr=GetBoardSquar(cell.ToString());	// get the board by cell position
 					sqr.BackgroundImage = null;
                     // Show a semi-transparent, saddle color
                     sqr.BackColor = System.Drawing.Color.FromArgb(200, System.Drawing.Color.SteelBlue);
