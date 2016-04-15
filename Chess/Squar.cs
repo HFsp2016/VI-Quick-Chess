@@ -17,7 +17,8 @@ namespace Chess
 	public class Squar : PictureBox
 	{
         SpeechSynthesizer sSynth = new SpeechSynthesizer();
-                
+        PromptBuilder style = new PromptBuilder();
+                        
         private GameUI m_ParentGame;
 		private static Image m_DraggedImage;	// Image being dragged
 		private static Image m_ImageBeforeDrag;	// Image stored in square before dragging
@@ -27,6 +28,7 @@ namespace Chess
 		public Squar(int row, int col, GameUI parentgame)
 		{
             sSynth.Rate = -3;
+            
             m_ParentGame = parentgame;
 
 			// Initialize the square UI component
@@ -145,9 +147,11 @@ namespace Chess
 			if (m_ParentGame.IsRunning && !m_ParentGame.ChessGame.ActivePlay.IsComputer())
 			{
 				Squar ChessSquar = (Squar)sender;
+                // 				m_ParentGame.Sounds.PlayClick();
+                style.AppendTextWithHint(ChessSquar.Name, SayAs.SpellOut);
+                sSynth.Speak(style);  // audio output coordinates of clicked empty square
+                style.ClearContent();
 
-				m_ParentGame.Sounds.PlayClick();
-                sSynth.Speak(ChessSquar.Name); // audio output coordinates of clicked empty square
                 m_ParentGame.SelectedSquar = ChessSquar.Name;
 				m_ParentGame.RedrawBoard();
 			}
@@ -156,7 +160,9 @@ namespace Chess
 		private void Squar_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
 		{
 			m_DragDestSquar = this.Name;
-            sSynth.Speak(this.Name); // audio output coordinates of clicked empty square
+            style.AppendTextWithHint(this.Name, SayAs.SpellOut);
+            sSynth.Speak(style);  // audio output coordinates of clicked empty square
+            style.ClearContent();
         }
 
 	}

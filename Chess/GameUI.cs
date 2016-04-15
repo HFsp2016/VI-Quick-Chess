@@ -18,6 +18,7 @@ namespace Chess
 	public class GameUI
 	{
         SpeechSynthesizer sSynth = new SpeechSynthesizer();
+        PromptBuilder style = new PromptBuilder();
 
         private ArrayList Squars;	// Picture control array for storing the place holders
 		public Images ChessImages;	// Contains reference of chess images
@@ -38,7 +39,7 @@ namespace Chess
 		public GameUI(ChessMain form)
 		{
             sSynth.Rate = -3;
-
+            
             this.ParentForm = form; // get and store reference of parent form
 
             // Load all the chess images in a list
@@ -83,7 +84,9 @@ namespace Chess
 		// returns board square for the given name
 		private Squar GetBoardSquar(string strCellName)
 		{
-            sSynth.SpeakAsync(strCellName);
+            style.AppendTextWithHint(strCellName, SayAs.SpellOut);
+            sSynth.Speak(style);
+            style.ClearContent();
             foreach (Squar ChessSquar in Squars)
 			{
 				if (ChessSquar.Name == strCellName)
@@ -97,7 +100,7 @@ namespace Chess
 		{
 			foreach (Squar ChessSquar in Squars)
 			{
-				if (ChessSquar.BackgroundImage==null) // background image doesn't exists
+				if (ChessSquar.BackgroundImage==null) // if background image doesn't exist
 				{
 					ChessSquar.SetBackgroundSquar(ChessImages);
 				}
