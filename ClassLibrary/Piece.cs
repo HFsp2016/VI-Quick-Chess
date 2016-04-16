@@ -105,7 +105,7 @@ namespace ChessLibrary
 				case PieceType.Knight:
 					return "Knight";
 				case PieceType.Pawn:
-                    return "Paahn";
+                    return "Pawn";
 				default:
 					return "E";
 			}

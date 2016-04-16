@@ -45,6 +45,7 @@ E:\Users\Keith\Documents\GitHub\quick-chess\Chess\obj\Debug\Chess.Squar.resource
 E:\Users\Keith\Documents\GitHub\quick-chess\Chess\obj\Debug\Chess.csproj.GenerateResource.Cache
 E:\Users\Keith\Documents\GitHub\quick-chess\Chess\bin\Debug\System.Speech.dll
 C:\Users\Stevo\quick-chess\Chess\bin\Debug\Chess.exe
+C:\Users\Stevo\quick-chess\Chess\bin\Debug\Chess.pdb
 C:\Users\Stevo\quick-chess\Chess\bin\Debug\Chessbrary.dll
 C:\Users\Stevo\quick-chess\Chess\bin\Debug\System.Speech.dll
 C:\Users\Stevo\quick-chess\Chess\bin\Debug\Chessbrary.pdb
@@ -59,4 +60,3 @@ C:\Users\Stevo\quick-chess\Chess\obj\Debug\Chess.Squar.resources
 C:\Users\Stevo\quick-chess\Chess\obj\Debug\Chess.csproj.GenerateResource.Cache
 C:\Users\Stevo\quick-chess\Chess\obj\Debug\Chess.exe
 C:\Users\Stevo\quick-chess\Chess\obj\Debug\Chess.pdb
-C:\Users\Stevo\quick-chess\Chess\bin\Debug\Chess.pdb

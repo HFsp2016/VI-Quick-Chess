@@ -1,4 +1,4 @@
-/***************************************************************
+﻿/***************************************************************
  * File: ChessBoard.cs
  * Created By: Syed Ghulam Akbar		Date: 29 June, 2005
  * Description: This class implements the actual chess board UI.
@@ -84,8 +84,8 @@ namespace Chess
 		// returns board square for the given name
 		private Squar GetBoardSquar(string strCellName)
 		{
-            style.AppendTextWithHint(strCellName, SayAs.SpellOut);
-            sSynth.Speak(style);
+            style.AppendTextWithHint(strCellName, SayAs.SpellOut);  // speak out selected square coordinates
+            sSynth.SpeakAsync(style);
             style.ClearContent();
             foreach (Squar ChessSquar in Squars)
 			{
@@ -117,9 +117,14 @@ namespace Chess
 
             if (SelectedSquar != null && SelectedSquar != "" && ChessGame.Board[SelectedSquar].piece != null && !ChessGame.Board[SelectedSquar].piece.IsEmpty())
             {
-                if (ChessGame.Board[SelectedSquar].piece.Side.isWhite()) sSynth.Speak("player");
-                if (ChessGame.Board[SelectedSquar].piece.Side.isBlack()) sSynth.Speak("computer");
-                sSynth.Speak(ChessGame.Board[SelectedSquar].piece.ToString()); // speak piece at clicked position
+                if (ChessGame.Board[SelectedSquar].piece.Side.isWhite()) sSynth.SpeakAsync("player");
+                if (ChessGame.Board[SelectedSquar].piece.Side.isBlack()) sSynth.SpeakAsync("computer");
+
+                if (ChessGame.Board[SelectedSquar].piece.IsPawn()) style.AppendTextWithPronunciation("pawn", "ˈpːɒɳ");
+                else style.AppendText(ChessGame.Board[SelectedSquar].piece.ToString(), PromptEmphasis.Strong);  // identify piece at selected square
+
+                sSynth.SpeakAsync(style);
+                style.ClearContent();
             }
 
             // Check if need to show the possible legal moves for the current selected piece
@@ -128,13 +133,13 @@ namespace Chess
                 ArrayList moves=ChessGame.GetLegalMoves(ChessGame.Board[SelectedSquar]);    // Get all legal moves for the current selected item
                 
                 // highlight all the possible moves for the current player
-                sSynth.Speak("Available moves are ");  // speak coordinates of clicked square
+                if (moves.Count != 0)sSynth.SpeakAsync("Available moves are ");  // speak coordinates of clicked square
                 foreach (Cell cell in moves)
 				{                    
                     Squar sqr=GetBoardSquar(cell.ToString());	// get the board by cell position
-					sqr.BackgroundImage = null;
+// 					sqr.BackgroundImage = null;
                     // Show a semi-transparent, saddle color
-                    sqr.BackColor = System.Drawing.Color.FromArgb(200, System.Drawing.Color.SteelBlue);
+//                     sqr.BackColor = System.Drawing.Color.FromArgb(200, System.Drawing.Color.SteelBlue);
 				}
 			}
 			SelectedSquar="";	// Reset the selected square position
