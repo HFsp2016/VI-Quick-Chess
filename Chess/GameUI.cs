@@ -5,6 +5,7 @@
  * This class handles drawing and events handling for the board
  ***************************************************************/
 using System;
+using System.Text;
 using System.Collections;
 using System.Windows.Forms;
 using ChessLibrary;
@@ -274,8 +275,29 @@ namespace Chess
                         IsOver =true;
 						MessageBox.Show(ChessGame.GetPlayerBySide(ChessGame.GameTurn).Name + " is stalemate.", "Game Over",MessageBoxButtons.OK,MessageBoxIcon.Exclamation);
 					}
-					LogUserMove(move.ToString());	// Log the user action
-                    sSynth.SpeakAsync(move.ToString());  // Speech indicates piece taken
+
+                    String output = move.ToString();
+                    StringBuilder bar = new StringBuilder();
+                    foreach(char c in output)
+                    {
+                        if (Char.IsDigit(c)){
+                            int val = (int)Char.GetNumericValue(c);
+                            int newVal = 8 - val + 1 ;
+                            bar.Append(newVal);
+                        }
+                        else
+                        {
+                            bar.Append(c);
+                        }
+                    }
+
+					LogUserMove(bar.ToString());
+                    Console.Write("---------");
+                    Console.Write(move.ToString());                                // Log the user action
+                    Console.Write(bar.ToString());
+                    Console.Write("---------");
+
+                    sSynth.SpeakAsync(bar.ToString());  // Speech indicates piece taken
                     NextPlayerTurn();
 					break;
 

@@ -19,3 +19,9 @@ C:\Users\Stevo\quick-chess\ClassLibrary\bin\Debug\Chessbrary.pdb
 C:\Users\Stevo\quick-chess\ClassLibrary\bin\Debug\System.Speech.dll
 C:\Users\Stevo\quick-chess\ClassLibrary\obj\Debug\Chessbrary.dll
 C:\Users\Stevo\quick-chess\ClassLibrary\obj\Debug\Chessbrary.pdb
+C:\Users\Alex\Source\Repos\quick-chess\ClassLibrary\bin\Debug\Chessbrary.dll
+C:\Users\Alex\Source\Repos\quick-chess\ClassLibrary\bin\Debug\Chessbrary.pdb
+C:\Users\Alex\Source\Repos\quick-chess\ClassLibrary\bin\Debug\System.Speech.dll
+C:\Users\Alex\Source\Repos\quick-chess\ClassLibrary\obj\Debug\ChessLibrary.csprojResolveAssemblyReference.cache
+C:\Users\Alex\Source\Repos\quick-chess\ClassLibrary\obj\Debug\Chessbrary.dll
+C:\Users\Alex\Source\Repos\quick-chess\ClassLibrary\obj\Debug\Chessbrary.pdb

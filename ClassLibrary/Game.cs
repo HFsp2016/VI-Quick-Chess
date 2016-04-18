@@ -194,7 +194,7 @@ namespace ChessLibrary
             if (xmlGame.Attributes["Checksum"] == null)
                 return;
 
-            // Read game state attributes
+            // Read game state attributes   
             DoNullMovePruning = (XMLHelper.GetNodeText(xmlGame, "DoNullMovePruning") == "True");
             DoPrincipleVariation = (XMLHelper.GetNodeText(xmlGame, "DoPrincipleVariation") == "True");
             DoQuiescentSearch = (XMLHelper.GetNodeText(xmlGame, "DoQuiescentSearch") == "True");
