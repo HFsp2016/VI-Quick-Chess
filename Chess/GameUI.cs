@@ -196,6 +196,7 @@ namespace Chess
             else
             {
                 sSynth.SpeakAsync("Player's move.");
+          
                 gb.Append(SpeechMoves);
                 Grammar g = new Grammar(new GrammarBuilder(gb,0,5));
                 sr.SetInputToDefaultAudioDevice();
@@ -271,21 +272,26 @@ namespace Chess
                  bar2.Append(Command[6]);
                  bar2.Append(val);
                  String CurrentMove = bar.ToString() + bar2.ToString();
-                 
-                 ArrayList moves = ChessGame.GetLegalMoves(ChessGame.Board[bar.ToString()]);
+                if (ChessGame.Board[bar.ToString()].piece == null)
+                {
+
+                }
+                else
+                {
+                    ArrayList moves = ChessGame.GetLegalMoves(ChessGame.Board[bar.ToString()]);
                     foreach (Cell cell in moves)
-                     {
-                    
+                    {
+
                         if (cell.ToString() == bar2.ToString() && CurrentMove != LastMove)
-                         {
+                        {
                             LastMove = CurrentMove;
                             UserMove(bar.ToString(), bar2.ToString());
 
-                          }
+                        }
 
 
                     }
-               
+                }
             }
             
         }
