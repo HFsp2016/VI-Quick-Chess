@@ -37,6 +37,7 @@ namespace Chess
 		public Sounds	Sounds;			// Stores the game sounds
 		public string	SelectedSquar;	// Contains name of the selected square
         public string LastSelectedSquar;// The last selected square
+        String lastSelected = " ";
 		public ChessMain ParentForm;	// Reference of the parent form 
 		public bool ShowMoveHelp;		// Show possible move by colors
 		public bool IsRunning;			// Return true when the game is running
@@ -256,8 +257,20 @@ namespace Chess
             StringBuilder bar2 = new StringBuilder();
             String Command = e.Result.Text.ToString();
             Command.Replace(" ", "");
-            Console.Write("  "+Command+"   ");
-            
+            Console.Write("-"+Command+"-");
+            if (Command.Length == 3 && Char.IsLetter(Command[0]) && Char.IsDigit(Command[2]))
+            {
+                bar.Append(Command[0]);
+                bar.Append(Command[2]);
+
+                SelectedSquar = bar.ToString();
+                if (lastSelected != SelectedSquar)
+                {
+                    lastSelected = SelectedSquar;
+                    RedrawBoard();
+                }
+            }
+
             if (Command.Length == 9 && Char.IsLetter(Command[0]) && Char.IsLetter(Command[6]) && Char.IsDigit(Command[2]) && Char.IsDigit(Command[8]))
             {
                 
