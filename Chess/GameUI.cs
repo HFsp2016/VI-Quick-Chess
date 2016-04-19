@@ -10,6 +10,9 @@ using System.Collections;
 using System.Windows.Forms;
 using ChessLibrary;
 using System.Speech.Synthesis;
+using System.Speech.Recognition;
+using System.Speech;
+using System.Text.RegularExpressions;
 
 namespace Chess
 {
@@ -20,13 +23,17 @@ namespace Chess
 	{
         SpeechSynthesizer sSynth = new SpeechSynthesizer();
         PromptBuilder style = new PromptBuilder();
+        SpeechRecognitionEngine sr = new SpeechRecognitionEngine();
+        Choices SpeechMoves = new Choices(new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "A", "B", "C", "D", "E", "F", "G", "H"});
+        GrammarBuilder gb = new GrammarBuilder();
+
 
         private ArrayList Squars;	// Picture control array for storing the place holders
 		public Images ChessImages;	// Contains reference of chess images
 		private string ResourceFolder;		// Contain the location of resource folder
 		private int LogCounter;			// Stores the entries in the log
-
-		public Game ChessGame;		    // Back end chess game engine
+        String LastMove = " ";
+        public Game ChessGame;		    // Back end chess game engine
 		public Sounds	Sounds;			// Stores the game sounds
 		public string	SelectedSquar;	// Contains name of the selected square
         public string LastSelectedSquar;// The last selected square
@@ -182,12 +189,26 @@ namespace Chess
 				Move nextMove = ChessGame.ActivePlay.GetBestMove();	// get the best move for the player
 
 				if (nextMove!=null)	// a valid move is available
-					UserMove(nextMove.StartCell.ToString(), nextMove.EndCell.ToString());
+					UserMove(nextMove.StartCell.ToString(), nextMove.EndCell.ToString());   
 				
 				ParentForm.ChessCaptureBar.Visible = true; // show the capture bar
 			}
             else
+            {
                 sSynth.SpeakAsync("Player's move.");
+                gb.Append(SpeechMoves);
+                Grammar g = new Grammar(new GrammarBuilder(gb,0,5));
+                sr.SetInputToDefaultAudioDevice();
+                sr.LoadGrammar(g);
+                sr.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(sr_SpeechRecognized);
+                sr.RecognizeAsync(RecognizeMode.Multiple);
+
+
+
+
+            }
+
+
         }
 
 		// Initialize the Chess player objects
@@ -227,14 +248,58 @@ namespace Chess
 			ParentForm.lstHistory.Items.Clear();
 		}
 
-		// A move is made by the player
-		public bool UserMove(string source, string dest)
+        void sr_SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        {
+            
+            StringBuilder bar = new StringBuilder();
+            StringBuilder bar2 = new StringBuilder();
+            String Command = e.Result.Text.ToString();
+            Command.Replace(" ", "");
+            Console.Write("  "+Command+"   ");
+            
+            if (Command.Length == 9 && Char.IsLetter(Command[0]) && Char.IsLetter(Command[6]) && Char.IsDigit(Command[2]) && Char.IsDigit(Command[8]))
+            {
+                
+             
+                 int val = (int)Char.GetNumericValue(Command[2]);
+                 
+                 bar.Append(Command[0]);
+                 bar.Append(val);
+
+                 val = (int)Char.GetNumericValue(Command[8]);
+                 
+                 bar2.Append(Command[6]);
+                 bar2.Append(val);
+                 String CurrentMove = bar.ToString() + bar2.ToString();
+                 
+                 ArrayList moves = ChessGame.GetLegalMoves(ChessGame.Board[bar.ToString()]);
+                    foreach (Cell cell in moves)
+                     {
+                    
+                        if (cell.ToString() == bar2.ToString() && CurrentMove != LastMove)
+                         {
+                            LastMove = CurrentMove;
+                            UserMove(bar.ToString(), bar2.ToString());
+
+                          }
+
+
+                    }
+               
+            }
+            
+        }
+        // A move is made by the player
+        public bool UserMove(string source, string dest)
 		{
+            sr.RecognizeAsyncStop();
+        
             bool success = true;
 			int MoveResult=ChessGame.DoMove(source, dest);
+            Console.Write(" --- MoveResult:: " + MoveResult + " --- ");
 			RedrawBoard();	// Refresh the board
-
-			switch (MoveResult)
+            
+            switch (MoveResult)
 			{
 				case 0:	// move was successful;
 					// check if the last move was promo move
