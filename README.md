@@ -1,10 +1,12 @@
-#VIquick-chess
+#VI Quick Chess
 ===========
 ##Modification of Quick Chess to cater to the visually impaired.
 
 	1) Text-to-speech output for gameplay and various user interface navigation actions
 	
-	2) Color modification for improved visual contrast
+	2) Speech recognition input for gameplay
+	
+	3) Color modification for improved visual contrast
 
 	
 ####Original README description below.
