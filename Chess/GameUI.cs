@@ -24,7 +24,7 @@ namespace Chess
         SpeechSynthesizer sSynth = new SpeechSynthesizer();
         PromptBuilder style = new PromptBuilder();
         SpeechRecognitionEngine sr = new SpeechRecognitionEngine();
-        Choices SpeechMoves = new Choices(new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "A", "B", "C", "D", "E", "F", "G", "H"});
+        Choices SpeechMoves = new Choices(new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "A", "B", "C", "D", "E", "F", "G", "H","all"});
         GrammarBuilder gb = new GrammarBuilder();
 
 
@@ -47,7 +47,7 @@ namespace Chess
 
 		public GameUI(ChessMain form)
 		{
-            sSynth.Rate = -3;
+            sSynth.Rate = 0;
             
             this.ParentForm = form; // get and store reference of parent form
 
@@ -80,9 +80,11 @@ namespace Chess
 			Squars = new ArrayList();	// Initialize place holder pictures
 
 			// Now dynamically draw all the chess pieces place holder images
-			for (int row=1; row<=8; row++)		// repeat for every row in the chess board
-				for (int col=1; col<=8; col++)	// repeat for every column in the chess board row
-				{
+           
+			for (int row=1; row<=8; row++)  // repeat\at for every column in the chess board row
+                for(int col=1; col<=8; col++)
+                {
+                    
 					Squar ChessSquar = new Squar(row, col, this);
 					ChessSquar.SetBackgroundSquar(ChessImages);	// Set the chess square background
 					Squars.Add(ChessSquar);
@@ -204,7 +206,7 @@ namespace Chess
                 sr.LoadGrammar(g);
                 sr.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(sr_SpeechRecognized);
                 sr.RecognizeAsync(RecognizeMode.Multiple);
-
+                    
 
 
 
@@ -258,7 +260,25 @@ namespace Chess
             String Command = e.Result.Text.ToString();
             Command.Replace(" ", "");
             Console.Write("-"+Command+"-");
-            if (Command.Length == 3 && Char.IsLetter(Command[0]) && Char.IsDigit(Command[2]))
+            if(Command == "all" && e.Result.Confidence >= .7)
+            {
+                foreach (Squar ChessSquar in Squars)
+                {
+                    if (ChessSquar != null && ChessSquar.Name != "" && ChessGame.Board[ChessSquar.Name].piece != null && !ChessGame.Board[ChessSquar.Name].piece.IsEmpty())
+                    {
+                        
+                        if (ChessGame.Board[ChessSquar.Name].piece.Side.isWhite()) sSynth.SpeakAsync("player");
+                        if (ChessGame.Board[ChessSquar.Name].piece.Side.isBlack()) sSynth.SpeakAsync("computer");
+
+                        if (ChessGame.Board[ChessSquar.Name].piece.IsPawn()) style.AppendTextWithPronunciation("pawn", "ˈpːɒɳ");
+                        else style.AppendText(ChessGame.Board[ChessSquar.Name].piece.ToString(), PromptEmphasis.Strong);  // identify piece at selected square
+                        sSynth.SpeakAsync(ChessSquar.Name.ToString());
+                        sSynth.SpeakAsync(style);
+                        style.ClearContent();
+                    }
+                }
+            }
+            if (Command.Length == 3 && Char.IsLetter(Command[0]) && Char.IsDigit(Command[2]) && e.Result.Confidence >= .7)
             {
                 bar.Append(Command[0]);
                 bar.Append(Command[2]);
@@ -271,7 +291,7 @@ namespace Chess
                 }
             }
 
-            if (Command.Length == 9 && Char.IsLetter(Command[0]) && Char.IsLetter(Command[6]) && Char.IsDigit(Command[2]) && Char.IsDigit(Command[8]))
+            if (Command.Length == 9 && Char.IsLetter(Command[0]) && Char.IsLetter(Command[6]) && Char.IsDigit(Command[2]) && Char.IsDigit(Command[8]) && e.Result.Confidence >= .7)
             {
                 
              
